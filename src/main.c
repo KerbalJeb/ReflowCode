@@ -1,50 +1,29 @@
+/*
+ * This file is part of the libopencm3 project.
+ *
+ * Copyright (C) 2010 Gareth McMullin <gareth@blacksphere.co.nz>
+ * Copyright (C) 2013 Joshua Harlan Lifton <joshua.harlan.lifton@gmail.com>
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
-#include <libopencm3/cm3/scb.h>
 
-#include <FreeRTOS.h>
-#include <task.h>
-
-#define LED_PIN GPIO15
-
-static void TaskBlinkLED(void* pvParameters);
-
-static void gpio_setup(void)
-{
-    /* Enable GPIOD clock. */
-    /* Manually: */
-    // RCC_AHB1ENR |= RCC_AHB1ENR_IOPDEN;
-    /* Using API functions: */
-    rcc_periph_clock_enable(RCC_GPIOD);
-
-    /* Set GPIO12 (in GPIO port D) to 'output push-pull'. */
-    /* Manually: */
-    // GPIOD_CRH = (GPIO_CNF_OUTPUT_PUSHPULL << (((8 - 8) * 4) + 2));
-    // GPIOD_CRH |= (GPIO_MODE_OUTPUT_2_MHZ << ((8 - 8) * 4));
-    /* Using API functions: */
-    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LED_PIN);
-}
 
 int main(void)
 {
-    scb_set_priority_grouping(0x300);
+  while (1) {}
 
-    xTaskCreate(TaskBlinkLED, "LED", 256, NULL, 1, NULL);
-
-    vTaskStartScheduler();
-
-    while (1) {}
-    return 0;
-}
-
-static void TaskBlinkLED(void *pvParamterers)
-{
-    const TickType_t xDelay = 500 / portTICK_PERIOD_MS;
-    gpio_setup();
-
-    while (1)
-    {
-        vTaskDelay(xDelay);
-        gpio_toggle(GPIOD, LED_PIN);
-    }
 }

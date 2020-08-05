@@ -12,37 +12,17 @@ set(SIZE arm-none-eabi-size)
 
 set(CMAKE_EXE_LINKER_FLAGS   
     "-T${PROJECT_SOURCE_DIR}/src/linker_file.ld\
-    -mthumb -mcpu=cortex-m4\
+    -mthumb -mcpu=cortex-m0\
     --specs=nosys.specs -Wl,-Map=${ProjName}.map\
     -Wl,--gc-sections\
     -static --specs=nano.specs\
-    -mfpu=fpv4-sp-d16 -mfloat-abi=hard\
     -Wl,--start-group\
     -lc -lm -lstdc++\
     -lsupc++ -Wl,--end-group\
     -Wl,--print-memory-usage")
 
-# set(CMAKE_CXX_FLAGS 
-#     -mcpu=cortex-m4
-#     -g3
-#     -O3
-#     -ffunction-sections
-#     -fdata-sections
-#     -fno-exceptions
-#     -fno-rtti
-#     -fno-threadsafe-statics
-#     -fno-use-cxa-atexit
-#     -Wall
-#     -Wno-unused-but-set-variable
-#     -std=c++17
-#     -fstack-usage
-#     --specs=nano.specs
-#     -mfpu=fpv4-sp-d16
-#     -mfloat-abi=hard
-#     -mthumb)
-
 set(CMAKE_C_FLAGS 
-    "-mcpu=cortex-m4\
+    "-mcpu=cortex-m0\
     -g3\
     -O3\
     -ffunction-sections\
@@ -50,7 +30,5 @@ set(CMAKE_C_FLAGS
     -Wall\
     -Wno-unused-but-set-variable\
     -fstack-usage\
-    -mfpu=fpv4-sp-d16\
-    -mfloat-abi=hard\
     -mthumb\
     -nostartfiles")
